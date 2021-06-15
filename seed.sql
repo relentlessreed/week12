@@ -26,8 +26,20 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ('Peter', 'Parker', (SELECT id FROM role WHERE title = 'HR Grunt'), 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Bill', 'Gates', (SELECT id FROM role WHERE title = 'HR Grunt'), 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ('George', 'Jetson', (SELECT id FROM role WHERE title = 'HR Grunt'), 1);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ('Clark', 'Kent', (SELECT id FROM role WHERE title = 'HR Grunt'), 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Gates', 'Melinda', (SELECT id FROM role WHERE title = 'Security'), 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Granger', 'Hermoine', (SELECT id FROM role WHERE title = 'Development Team'), 1);
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ('Bezos', 'Jeffery', (SELECT id FROM role WHERE title = 'Development Team'), 1);
 

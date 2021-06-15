@@ -16,19 +16,31 @@ function backToBeginning () {
 }
 
 class Employee {
-  create(first_name, last_name, role, manager_id = "NULL") {
+  // create(first_name, last_name, role, manager_id = "NULL") {
+  create() {
+    console.log("Create Employee")
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "What is the employee's first name?"
+      }
+    ]).then(newEmployee => {
+      console.log(newEmployee)
+    })
     // We will use the mysql plugin to insert into our database
-    let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-        VALUES ('${first_name}', '${last_name}', (SELECT id FROM role WHERE title = '${role}'), ${manager_id});`;
+    // let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+    // VALUES ('${first_name}', '${last_name}', (SELECT id FROM role WHERE title = '${role}'), ${manager_id});`;
+    
+    // connection.connect();
+    
+    // connection.query(sql, function (error, results, fields) {
+    //   if (error) throw error;
+    //     // console.log('The solution is: ', results[0].solution);
+    // });
 
-    connection.connect();
-
-    connection.query(sql, function (error, results, fields) {
-      if (error) throw error;
-        // console.log('The solution is: ', results[0].solution);
-    });
-
-    connection.end();
+    // connection.end();
+    // calling in the run
   }
   read() {
     // We will use the mysql plugin to insert into our database
@@ -39,7 +51,8 @@ class Employee {
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
       //   console.log('The solution is: ', results[0].solution);
-     return console.table(results)
+     console.table(results)
+     run();
     });
     
     connection.end();
@@ -156,10 +169,13 @@ class Department {
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
+        console.log("hello")
       console.table(results)
-    });
+    }).then(()=> {
+      run();
+    })
 
-    connection.end();
+    // connection.end();
     // TO DO: Loop Back To Beginning of Questions
   }
   update(departmentName, id) {
@@ -210,6 +226,7 @@ async function firstPrompt(){
         "Update Employee Role",
         "Update Employee Manager",
         "View All Roles",
+        "Quit"
       ]
     },
   ])
@@ -222,7 +239,12 @@ async function run() {
       break;
      case "View all Employees by Department":
         new Employee().read();
-        break;    
+        break;
+     case "Add Employee":
+       new Employee().create()
+     case "Quit":
+       connection.end();
+       break;
   }
 //     let employee = new Employee()
 // new Employee().create("Jason", "Bourne", "HR Manager", "3");
