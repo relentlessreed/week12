@@ -11,13 +11,14 @@ inquirer
       message: "What would you like to do?",
       choices: [
         "View all Employees",
+        "View all Departments",
         "View all Employees by Department",
         "View all Employees by Manager",
         "Add Employee",
         "Remove Employee",
         "Update Employee Role",
         "Update Employee Manager",
-        "View All Roles",
+        "View all Roles",
       ]
     },
     {

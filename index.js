@@ -9,11 +9,7 @@ var connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
-
-// Creating loopback function
-function backToBeginning () {
-
-}
+connection.connect()
 
 class Employee {
   // create(first_name, last_name, role, manager_id = "NULL") {
@@ -24,29 +20,52 @@ class Employee {
         type: "input",
         name: "firstName",
         message: "What is the employee's first name?"
-      }
-    ]).then(newEmployee => {
-      console.log(newEmployee)
-    })
-    // We will use the mysql plugin to insert into our database
-    // let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
-    // VALUES ('${first_name}', '${last_name}', (SELECT id FROM role WHERE title = '${role}'), ${manager_id});`;
-    
-    // connection.connect();
-    
-    // connection.query(sql, function (error, results, fields) {
-    //   if (error) throw error;
-    //     // console.log('The solution is: ', results[0].solution);
-    // });
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "What is the employee's last name?"
+      },
+      {
+        type: "input",
+        name: "roleId",
+        message: "What is the employee's role id #?"
+      },
+      {
+        type: "input",
+        name: "managerId",
+        message: "What is the employee's manager id #?"
+      },
 
-    // connection.end();
+    ]).then(newEmployee => {
+      const newEmpFirstName = newEmployee.firstName
+      const newEmpLastName = newEmployee.lastName
+      const newEmpRoleId = parseInt(newEmployee.roleId)
+      const newEmpManagerId = parseInt(newEmployee.managerId)
+      // We will use the mysql plugin to insert into our database
+      let sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+      VALUES ('${newEmpFirstName}', '${newEmpLastName}', ${newEmpRoleId}, ${newEmpManagerId});`;
+      // //connection.connect();
+      
+      connection.query(sql, function (error, results, fields) {
+        if (error) throw error;
+          // console.log('The solution is: ', results[0].solution);
+          console.log(results)
+          run()
+      });
+
+      
+    })
+    
+
+   //connection.end();
     // calling in the run
   }
   read() {
     // We will use the mysql plugin to insert into our database
     let sql = `SELECT * FROM employee`;
 
-    connection.connect();
+    //connection.connect();
 
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
@@ -55,76 +74,110 @@ class Employee {
      run();
     });
     
-    connection.end();
+  //  connection.end();
   }
   update(id, first_name, last_name, role_id, manager_id = "NULL") {
     // We will use the mysql plugin to insert into our database
     let sql = `UPDATE employee SET first_name = '${first_name}', last_name = '${last_name}', role_id = ${role_id}, manager_id = ${manager_id} WHERE id = ${id}`;
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
   }
   delete(id) {
     // We will use the mysql plugin to insert into our database
     let sql = `DELETE FROM employee WHERE employee.id = ${id}`;
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
       //   console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
   }
 }
 class Role {
-  create(title, salary, department_id) {
+create() {
+      console.log("Create Role")
+      inquirer.prompt([
+        {
+          type: "input",
+          name: "roleTitle",
+          message: "What is the title of the Role?"
+        },
+        {
+        type: "input",
+          name: "roleSalary",
+          message: "What is the Role Salary?"
+        },
+        {
+        type: "input",
+          name: "roleDepartmentId",
+          message: "What is the Role Department Id?"
+        },
+      ]).then(newRole => {
+    const newRoleTitle = newRole.roleTitle
+    const newRoleSalary = newRole.roleSalary
+    const newRoleDepartmentId = newRole.roleDepartmentId
+// We will use the mysql plugin to insert into our database
+let sql = `INSERT INTO role (title, salary, department_id)
+VALUES ("${newRoleTitle}", "${newRoleSalary}", "${newRoleDepartmentId}");`;
+  console.log(sql)
+      connection.query(sql, function (error, results, fields) {
+        if (error) throw error;
+          // console.log('The solution is: ', results[0].solution);
+          console.log(results)
+          run()
+      });
+    })
+    
     // We will use the mysql plugin to insert into our database
     let sql = `INSERT INTO role (title, salary, department_id)
-        VALUES (?, ?, ?);`;
+        VALUES ();`;
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, [title, salary, department_id], function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
   }
   read() {
     // We will use the mysql plugin to insert into our database
     let sql = `SELECT * FROM role`;
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
       console.table(results)
+      run()
     });
 
-    connection.end();
+    ////connection.end();
     // TO DO: Loop Back To Beginning of Questions
   }
   update(title, salary, department_id, id) {
     // We will use the mysql plugin to insert into our database
     let sql = `UPDATE role SET title = ?, salary = ?, department_id = ? WHERE id = ?`;
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, [title, salary, department_id, id], function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
     // TO DO: Display Text Reading "Role Updated."
     // TO DO: Loop Back To Beginning of Questions
   }
@@ -133,63 +186,71 @@ class Role {
     let sql = `DELETE FROM role WHERE id = ?`;
 
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, [id], function (error, results, fields) {
       if (error) throw error;
       //   console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
     // TO DO: Display Text Reading "Role Deleted."
     // TO DO: Loop Back To Beginning of Questions
   }
 }
 class Department {
-  create(name) {
+  create() {
+
+    console.log("Create Department")
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "departmentName",
+        message: "What is the name of the Department?"
+      },
+    ]).then(newDepartment => {
     // We will use the mysql plugin to insert into our database
     let sql = `INSERT INTO department (name)
-        VALUES (?);`;
-
-    connection.connect();
-
-    connection.query(sql, [name], function (error, results, fields) {
+        VALUE ("${newDepartment.departmentName}");`;
+console.log(sql)
+    connection.query(sql, function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
+        console.log(results)
+        run()
     });
-
-    connection.end();
+  })
+    ////connection.end();
         // TO DO: Loop Back To Beginning of Questions
   }
   read() {
     // We will use the mysql plugin to insert into our database
     let sql = `SELECT * FROM department`;
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
-        console.log("hello")
+
       console.table(results)
-    }).then(()=> {
       run();
     })
 
-    // connection.end();
+   //connection.end();
     // TO DO: Loop Back To Beginning of Questions
   }
   update(departmentName, id) {
     // We will use the mysql plugin to insert into our database
     let sql = `UPDATE department SET name = ? WHERE id = ?`;
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, [departmentName, id], function (error, results, fields) {
       if (error) throw error;
         // console.log('The solution is: ', results[0].solution);
     });
 
-    connection.end();
+    ////connection.end();
     // TO DO: Display Text Reading "Department Updated."
     // TO DO: Loop Back To Beginning of Questions
   }
@@ -198,14 +259,14 @@ class Department {
     let sql = `DELETE FROM department WHERE id = ?`;
 
 
-    connection.connect();
+    ////connection.connect();
 
     connection.query(sql, [id], function (error, results, fields) {
       if (error) throw error;
       //   console.log('The solution is: ', results[0].solution); 
     });
 
-    connection.end();
+    ////connection.end();
     // TO DO: Display Text Reading "Role Deleted."
     // TO DO: Loop Back To Beginning of Questions
   }
@@ -219,13 +280,16 @@ async function firstPrompt(){
       message: "What would you like to do?",
       choices: [
         "View all Employees",
+        "View all Departments",
         "View all Employees by Department",
         "View all Employees by Manager",
         "Add Employee",
         "Remove Employee",
         "Update Employee Role",
         "Update Employee Manager",
-        "View All Roles",
+        "Add Department",
+        "Add Role",
+        "View all Roles",
         "Quit"
       ]
     },
@@ -233,17 +297,31 @@ async function firstPrompt(){
 }
 async function run() {
   const prompt = await firstPrompt()
+  // connection.end()
+  // //connection.connect()
   switch (prompt.action) {
     case "View all Employees":
       new Employee().read();
       break;
+    case "View all Departments":
+      new Department().read();
+    break;
+    case "View all Roles":
+      new Role().read();
+    break;
      case "View all Employees by Department":
         new Employee().read();
         break;
      case "Add Employee":
        new Employee().create()
+    case "Add Department":
+       new Department().create()
+    case "Add Role":
+       new Role().create()
      case "Quit":
-       connection.end();
+       
+       
+      // //connection.end();
        break;
   }
 //     let employee = new Employee()
