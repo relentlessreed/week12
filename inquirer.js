@@ -19,6 +19,7 @@ inquirer
         "Update Employee Role",
         "Update Employee Manager",
         "View all Roles",
+        "Update Employee Role"
       ]
     },
     {

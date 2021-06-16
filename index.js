@@ -138,10 +138,6 @@ VALUES ("${newRoleTitle}", "${newRoleSalary}", "${newRoleDepartmentId}");`;
       });
     })
     
-    // We will use the mysql plugin to insert into our database
-    let sql = `INSERT INTO role (title, salary, department_id)
-        VALUES ();`;
-
     ////connection.connect();
 
     connection.query(sql, [title, salary, department_id], function (error, results, fields) {
@@ -318,6 +314,8 @@ async function run() {
        new Department().create()
     case "Add Role":
        new Role().create()
+    case "Update Employee Role":
+        new Role().create()
      case "Quit":
        
        
