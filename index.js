@@ -139,12 +139,6 @@ VALUES ("${newRoleTitle}", "${newRoleSalary}", "${newRoleDepartmentId}");`;
     })
     
     ////connection.connect();
-
-    connection.query(sql, [title, salary, department_id], function (error, results, fields) {
-      if (error) throw error;
-        // console.log('The solution is: ', results[0].solution);
-    });
-
     ////connection.end();
   }
   read() {
@@ -215,6 +209,7 @@ console.log(sql)
         console.log(results)
         run()
     });
+    
   })
     ////connection.end();
         // TO DO: Loop Back To Beginning of Questions
@@ -314,8 +309,8 @@ async function run() {
        new Department().create()
     case "Add Role":
        new Role().create()
-    case "Update Employee Role":
-        new Role().create()
+    // case "Update Employee Role":
+    //     new Role().create()
      case "Quit":
        
        
